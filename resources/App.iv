@@ -1,0 +1,436 @@
+#Inventor V2.1 ascii
+
+SoXipViewportGroup {
+    fields [ SFBool activateOnClick, MFVec4f viewports, SFInt32 current,  ]
+    activateOnClick	FALSE
+    viewports	[ 0 0 0.5 0.5,
+		      0 0.5 0.5 0.5,
+		      0.5 0.5 0.5 0.5,
+		      0.5 0 0.5 0.5 ]
+    current	3
+    Separator {
+	Group {
+	    DEF +0 SoXipMprPlane {
+		fields [ SFMatrix plane, SFVec3f center, SFColor color, SFInt32 id,
+			 ]
+		plane	-1 -4.99212e-008 5.4553e-009 0
+			1.82095e-008 -1.97124e-007 1 0
+			-1.48952e-007 1 -2.66157e-007 0
+			0.5 0.5 0.5 1
+		center	0.5 0.5 0.5
+		color	0 0 1
+		id	2
+	    }
+	    DEF +1 SoXipMprPlane {
+		fields [ SFMatrix plane, SFVec3f center, SFColor color, SFInt32 id,
+			 ]
+		plane	-1.49044e-009 1 2.73027e-008 0
+			-4.22289e-009 2.73764e-008 1 0
+			1 -2.39709e-009 -3.31621e-009 0
+			0.5 0.5 0.5 1
+		center	0.5 0.5 0.5
+		color	0 1 0
+		id	1
+	    }
+	    DEF +2 SoXipMprPlane {
+		fields [ SFMatrix plane, SFVec3f center, SFColor color,  ]
+		plane	1 0 0 0
+			0 -1 -8.74228e-008 0
+			0 8.74228e-008 -1 0
+			0.5 0.5 0.5 1
+		center	0.5 0.5 0.5
+		color	1 0 0
+	    }
+	}
+	DEF MprExaminer0 SoXipMprExaminer {
+	    mode	ROTATE
+	    border	TRUE
+	    dogEar	TRUE
+	    orientationCube	TRUE
+	    camera		    OrthographicCamera {
+		position	0.5 0.5 0.5
+		orientation	1 0 0  3.14159
+		nearDistance	-1
+		farDistance	1
+		focalDistance	0
+		height	1
+	    }
+
+	    complexity		    Complexity {
+		value	0.5
+		textureQuality	0.5
+	    }
+
+	    intersectionManip		    SoXipMprIntersectionManip {
+		fields [ SFBool isManipulating, SFBool on, SFEnum mode,  ]
+		isManipulating	FALSE
+		on	TRUE
+		mode	TRANSLATION
+	    }
+
+	    borderNode		    DEF +3 SoXipViewportBorder {
+		fields [ SFColor activeColor, SFColor inactiveColor,  ]
+		activeColor	1 0 0
+		inactiveColor	1 0 0
+	    }
+
+	    dogEarNode		    DEF +4 SoXipDogEar {
+		fields [  ]
+	    }
+
+	    orientationNode		    DEF +5 SoXipOrientationCube {
+		fields [  ]
+	    }
+
+	    borderSwitch		    Switch {
+		whichChild	0
+		USE +3
+	    }
+
+	    dogEarSwitch		    Switch {
+		whichChild	0
+		USE +4
+	    }
+
+	    orientationSwitch		    Switch {
+		whichChild	0
+		USE +5
+	    }
+
+	}
+	DEF +6 Group {
+	    DEF +7 SoXipWindowLevelManip {
+		fields [ SFFloat window, SFFloat level, SFEnum mouse,  ]
+		window	1 =
+		    DEF +8 SoXipDicomWindowLevel {
+			inputs [ SoXipSFDataDicom input ]
+			input	"NULL" =
+			    DEF LoadDicom+9 SoXipLoadDicom {
+				inputs [  ]
+				outputs [ SoXipMFDataDicom dicom ]
+			    }
+			    . dicom
+
+			outputs [ SFFloat window, SFFloat level, SFShort bitsStored ]
+		    }
+		    . window
+
+		level	0.5 =
+		    USE +8
+		    . level
+
+		mouse	BUTTON3
+	    }
+	    SoXipLut {
+		fields [ SFEnum alphaMode, SFEnum fileMode, SFShort bitsUsed, SFFloat rampWidth,
+			SFFloat rampCenter, SFColor colorMiddle, SFInt32 fileEntries, MFColor arrayColor,
+			MFFloat arrayAlpha,  ]
+		alphaMode	CONSTANT
+		fileMode	FLOAT_COMMA
+		bitsUsed	0 =
+		    USE +8
+		    . bitsStored
+
+		rampWidth	1 =
+		    USE +7
+		    . window
+
+		rampCenter	0.5 =
+		    USE +7
+		    . level
+
+		colorMiddle	0.7 0.5 0.3
+		fileEntries	4096
+		arrayColor	[  ]
+		arrayAlpha	[  ]
+	    }
+	}
+	SoXipCPUMprRender {
+	    fields [ SoXipSFDataImage volume,  ]
+	    volume	"NULL" =
+		DEF +10 SoXipVolumeDicom {
+		    inputs [ SoXipMFDataDicom input ]
+		    input	[  ] =
+			SoXipSortDicom {
+			    inputs [ SoXipMFDataDicom input ]
+			    input	[  ] =
+				USE LoadDicom+9
+				. dicom
+
+			    outputs [ SoXipMFDataDicom output ]
+			}
+			. output
+
+		    outputs [ SoXipSFDataImage output ]
+		}
+		. output
+
+	}
+    }
+    Separator {
+	Group {
+	    USE +0
+	    USE +2
+	    USE +1
+	}
+	DEF MprExaminer1 SoXipMprExaminer {
+	    orientation	LEFT
+	    mode	ROTATE
+	    border	TRUE
+	    dogEar	TRUE
+	    orientationCube	TRUE
+	    camera		    OrthographicCamera {
+		position	0.5 0.5 0.5
+		orientation	0.57735 0.57735 0.57735  2.0944
+		nearDistance	-1
+		farDistance	1
+		focalDistance	0
+		height	1
+	    }
+
+	    complexity		    Complexity {
+		value	0.5
+		textureQuality	0.5
+	    }
+
+	    intersectionManip		    SoXipMprIntersectionManip {
+		fields [ SFBool isManipulating, SFBool on, SFEnum mode,  ]
+		isManipulating	FALSE
+		on	TRUE
+		mode	TRANSLATION
+	    }
+
+	    borderNode		    DEF +11 SoXipViewportBorder {
+		fields [ SFColor activeColor, SFColor inactiveColor,  ]
+		activeColor	0 1 0
+		inactiveColor	0 1 0
+	    }
+
+	    dogEarNode		    DEF +12 SoXipDogEar {
+		fields [  ]
+	    }
+
+	    orientationNode		    DEF +13 SoXipOrientationCube {
+		fields [  ]
+	    }
+
+	    borderSwitch		    Switch {
+		whichChild	0
+		USE +11
+	    }
+
+	    dogEarSwitch		    Switch {
+		whichChild	0
+		USE +12
+	    }
+
+	    orientationSwitch		    Switch {
+		whichChild	0
+		USE +13
+	    }
+
+	}
+	USE +6
+	SoXipCPUMprRender {
+	    fields [ SoXipSFDataImage volume,  ]
+	    volume	"NULL" =
+		USE +10
+		. output
+
+	}
+    }
+    Separator {
+	Group {
+	    USE +2
+	    USE +1
+	    USE +0
+	}
+	DEF MprExaminer2 SoXipMprExaminer {
+	    orientation	POSTERIOR
+	    mode	ROTATE
+	    border	TRUE
+	    dogEar	TRUE
+	    orientationCube	TRUE
+	    camera		    OrthographicCamera {
+		position	0.5 0.5 0.5
+		orientation	-2.64525e-008 0.707107 0.707107  3.14159
+		nearDistance	-1
+		farDistance	1
+		focalDistance	0
+		height	1
+	    }
+
+	    complexity		    Complexity {
+		value	0.5
+		textureQuality	0.5
+	    }
+
+	    intersectionManip		    SoXipMprIntersectionManip {
+		fields [ SFBool isManipulating, SFBool on, SFEnum mode,  ]
+		isManipulating	FALSE
+		on	TRUE
+		mode	TRANSLATION
+	    }
+
+	    borderNode		    DEF +14 SoXipViewportBorder {
+		fields [ SFColor activeColor, SFColor inactiveColor,  ]
+		activeColor	0 0 1
+		inactiveColor	0 0 1
+	    }
+
+	    dogEarNode		    DEF +15 SoXipDogEar {
+		fields [  ]
+	    }
+
+	    orientationNode		    DEF +16 SoXipOrientationCube {
+		fields [  ]
+	    }
+
+	    borderSwitch		    Switch {
+		whichChild	0
+		USE +14
+	    }
+
+	    dogEarSwitch		    Switch {
+		whichChild	0
+		USE +15
+	    }
+
+	    orientationSwitch		    Switch {
+		whichChild	0
+		USE +16
+	    }
+
+	}
+	USE +6
+	SoXipCPUMprRender {
+	    fields [ SoXipSFDataImage volume,  ]
+	    volume	"NULL" =
+		USE +10
+		. output
+
+	}
+    }
+    Separator {
+	DEF VolExaminer SoXipExaminer {
+	    perspective	FALSE
+	    orientation	LEFT
+	    mode	ROTATE
+	    plane	-0 -5.96046e-008 1  0.5
+	    complexity		    Complexity {
+		value	0.5
+		textureQuality	0.5
+	    }
+
+	    orthoCamera		    DEF +17 OrthographicCamera {
+		viewportMapping	ADJUST_CAMERA
+		position	-0.191888 0.903652 0.829176
+		orientation	-0.330827 0.498571 0.801237  3.89191
+		aspectRatio	1
+		nearDistance	-0
+		farDistance	1.73205
+		focalDistance	0.866025
+		height	1.73205
+	    }
+
+	    perspectiveCamera		    DEF +18 PerspectiveCamera {
+		position	0.5 0.5 -1.59077
+		orientation	1 0 0  3.14159
+		nearDistance	1.22474
+		farDistance	2.9568
+		focalDistance	2.09077
+		heightAngle	0.785398
+	    }
+
+	    borderNode		    SoXipViewportBorder {
+		fields [ SFColor activeColor, SFColor inactiveColor,  ]
+		activeColor	0.7 0.7 0.7
+		inactiveColor	0.7 0.7 0.7
+	    }
+
+	    cameraSwitch		    Switch {
+		whichChild	0
+		USE +17
+		USE +18
+	    }
+
+	}
+	DEF +19 SoXipTextureUnit {
+	    fields [ SFInt32 textureStage, SFBool autoGenerate ]
+	    autoGenerate	FALSE
+	}
+	SoXipTexture {
+	    fields [ SoXipSFDataImage image, SFEnum internalFormat, SFVec3f textureSize,  ]
+	    image	"NULL" =
+		USE +10
+		. output
+
+	    internalFormat	LUMINANCE16
+	    textureSize	256 256 113
+	}
+	DEF +20 SoXipWindowLevelManip {
+	    fields [ SFFloat window, SFFloat level, SFEnum mouse,  ]
+	    window	1 =
+		USE +8
+		. window
+
+	    level	0.5 =
+		USE +8
+		. level
+
+	    mouse	BUTTON3
+	}
+	DEF +21 SoXipTextureUnit {
+	    fields [ SFInt32 textureStage, SFBool autoGenerate ]
+	    textureStage	1
+	    autoGenerate	FALSE
+	}
+	SoXipLut {
+	    fields [ SFShort bitsUsed, SFFloat rampWidth, SFFloat rampCenter, SFColor colorMiddle,
+		    MFColor arrayColor, MFFloat arrayAlpha,  ]
+	    bitsUsed	0 =
+		USE +8
+		. bitsStored
+
+	    rampWidth	1 =
+		USE +20
+		. window
+
+	    rampCenter	0.5 =
+		USE +20
+		. level
+
+	    colorMiddle	0.7 0.5 0.3
+	    arrayColor	[  ]
+	    arrayAlpha	[  ]
+	}
+	SoXipLutTexture {
+	    fields [ SoSFVec2s textureSize,  ]
+	    textureSize	4096 1
+	}
+	SoXipLoadShaders {
+	    fields [ SFString fpFilename,  ]
+	    fpFilename	"../resources/slicerfp.glsl"
+	}
+	SoXipUniformInt {
+	    fields [ SFString name, MFInt32 value ]
+	    name	"volume"
+	    value	0 =
+		USE +19
+		. textureStage
+
+	}
+	SoXipUniformInt {
+	    fields [ SFString name, MFInt32 value ]
+	    name	"lut"
+	    value	1 =
+		USE +21
+		. textureStage
+
+	}
+	SoXipSlicer {
+	    fields [ SFBool useComplexity,  ]
+	    useComplexity	FALSE
+	}
+    }
+}

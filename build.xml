@@ -1,0 +1,51 @@
+<project name="IA" default="all" basedir=".">
+   <description>
+      Image Annotation Tools...
+   </description>
+   
+   <property name="src" location="Src" />
+   <property name="main-class" value="ImageAnnotation" />   
+   <property name="build" location="build" />
+   <property name="build.lib" location="${build}/lib" />
+   <property name="build.classes" location="${build}/classes" />	
+   <property name="lib" location="lib" />
+   <property name="xip.host.dist" location="../XIPHost/build/lib" />
+   <property name="xip.host.lib" location="../XIPHost/lib" />
+   <property name="ad.dist" location="../ad-core/build/lib" />
+    
+   <path id="classpath">         
+   <fileset dir="${xip.host.dist}" includes="*.jar"/>
+   <fileset dir="${xip.host.lib}" includes="jdom*.jar, pixelmed*.jar"/>
+   <fileset dir="${ad.dist}" includes="*.jar"/>
+   <fileset dir="${lib}" includes="*.jar"/>
+   </path>
+   
+   <target name="clean">
+      <delete dir="${build}"/>
+   </target>
+      
+   <target name="init">
+      <!-- Create the build directory structure used by compile -->
+      <mkdir dir="${build}" />
+      <mkdir dir="${build.lib}" />
+      <mkdir dir="${build.classes}" />     
+   </target>
+	
+   <target name="compile" depends="init">
+      <javac srcdir="${src}" destdir="${build.classes}" debug="on" classpathref="classpath"/>
+   </target>  	
+	
+   <target name="jar" depends="compile">
+	 <manifestclasspath maxParentLevels="5" jarfile="${build.lib}/IA.jar" property="manifest.class.path">
+		 <classpath refid="classpath" /> 
+	 </manifestclasspath>
+	 <jar jarfile="${build.lib}/IA.jar" basedir="${build.classes}">
+	 <manifest>
+	 	<attribute name="Main-Class" value="${main-class}" /> 
+	 	<attribute name="Class-Path" value="${manifest.class.path}" /> 
+	 </manifest>
+	 </jar>
+   </target>
+         
+   <target name="all" depends="clean,jar"/>
+</project>
