@@ -219,7 +219,7 @@ public class XipHostedApp extends WG23Application implements WG23Listener, Outpu
 	public boolean setState(State newState) {
 		if(State.valueOf(newState.toString()).equals(State.CANCELED)){
 			getClientToHost().notifyStateChanged(State.CANCELED);
-			getClientToHost().notifyStateChanged(State.IDLE);
+			//getClientToHost().notifyStateChanged(State.IDLE);
 		}else if(State.valueOf(newState.toString()).equals(State.EXIT)){
 			getClientToHost().notifyStateChanged(State.EXIT);						
 			//terminating endpoint and existing system is accomplished through ApplicationTerminator
