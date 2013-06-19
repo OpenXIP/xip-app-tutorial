@@ -1,4 +1,4 @@
-Welcome to the XIP Tutorial Applicationsion&trade; Project!
+Welcome to the XIP Tutorial Application&trade; Project!
 ===========================================================
 
 The [eXtensible Imaging Platform&trade; (XIP&trade;)](http://www.OpenXIP.org) is an

@@ -1,4 +1,4 @@
-XIP Host(tm), part of the eXtensible Imaging Platform family
+XIP(tm) Tutorial Application, part of the eXtensible Imaging Platform family
 Copyright (c) 2008 Washington University in St. Louis
 
 This project is distributed under the Apache 2.0 License.
