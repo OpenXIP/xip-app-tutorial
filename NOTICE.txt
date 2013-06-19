@@ -6,7 +6,7 @@ Please see the LICENSE file for details.
 
 
 This project was originally developed as part of the NCI caBIG initiative. The Electronic
-Radiology Laborator at the Mallinckrodt Institute of Radiology of Washington University in
+Radiology Laboratory at the Mallinckrodt Institute of Radiology of Washington University in
 St. Louis was the development lead for the XIP Tutorial Application project.
 The Princeton, NJ office of Siemens Corporate Research provided the scenegraph used
 by the tutorial application. The project's web home is found at http://www.OpenXIP.org.
