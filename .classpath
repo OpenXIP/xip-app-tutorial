@@ -4,6 +4,6 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/pixelmed.jar"/>
 	<classpathentry kind="lib" path="lib/jdom.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/XIPApp"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/xip-app"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
