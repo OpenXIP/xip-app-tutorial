@@ -1,0 +1,25 @@
+XIP Host(tm), part of the eXtensible Imaging Platform family
+Copyright (c) 2008 Washington University in St. Louis
+
+This project is distributed under the Apache 2.0 License.
+Please see the LICENSE file for details.
+
+
+This project was originally developed as part of the NCI caBIG initiative. The Electronic
+Radiology Laborator at the Mallinckrodt Institute of Radiology of Washington University in
+St. Louis was the development lead for the XIP Tutorial Application project.
+The Princeton, NJ office of Siemens Corporate Research provided the scenegraph used
+by the tutorial application. The project's web home is found at http://www.OpenXIP.org.
+
+
+In 2013, as part of the National Cancer Informatics Program (NCIP) Open Development Initiative,
+the XIP and AVT source code and documentation was consolidated onto imphub.org to foster
+future development by a broader community.  The source code was also mirrored to GitHub to 
+facilitate distribution to and contributions from a wide audience.
+
+
+This project utilizes components as jar files from other projects that are copyrighted by
+third parties and that distributed under various licenses. A summary of these jar files
+and the licenses under which they are distributed can be found at:
+
+https://github.com/OpenXIP/master-build/blob/master/Licenses/3rd-party-jar-Licences.xls
